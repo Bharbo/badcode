@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>badcode</name>
-    <description>Bad code for intership</description>
+    <description>Bad code for internship</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -35,13 +35,26 @@
             <artifactId>hsqldb</artifactId>
         </dependency>
 
-
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.10</version>
+            <scope>provided</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.5</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -52,6 +65,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>

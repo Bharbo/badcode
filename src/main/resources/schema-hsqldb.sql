@@ -7,4 +7,5 @@ CREATE TABLE person
   weight INT NOT NULL,
   height INT NOT NULL,
   age INT NOT NULL,
-  PRIMARY KEY (id));
+  PRIMARY KEY (id)
+  );
