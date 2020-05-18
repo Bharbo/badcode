@@ -1,15 +1,18 @@
 package ru.liga.intership.badcode;
 
+import org.apache.commons.math3.util.Precision;
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.liga.intership.badcode.domain.Person;
+import ru.liga.intership.badcode.service.PersonService;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static ru.liga.intership.badcode.service.PersonService.*;
@@ -17,25 +20,41 @@ import static ru.liga.intership.badcode.service.PersonService.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class BadcodeApplicationTests {
+    private static ResultSet resultSet;
+    private static Statement statement;
+    private static List<Person> personList = new ArrayList<>();
+    private String badRequest = "baaaaaaaaaad";
+    private String goodRequest = "select * from person";
 
-    public BadcodeApplicationTests() throws SQLException {
+    @Before
+    public void createConnection() throws SQLException {
+        personList.add(new Person(1, "female", "Sveta", 50, 17, 170));
+        personList.add(new Person(2, "male", "Andrey", 23, 26, 180));
+        personList.add(new Person(3, "female", "Азалина", 100, 37, 165));
+        personList.add(new Person(4, "male", "Канат", 74, 48, 139));
+        Connection conn = DriverManager.getConnection("jdbc:hsqldb:file:D:/soft/hsqldb-2.5.0/2", "user", "");
+        statement = conn.createStatement();
+        resultSet = getResultSet(statement, goodRequest);
     }
 
-    Connection conn = connect("jdbc:hsqldb:mem:test", "sa", "");
-    ResultSet requestRes = getAdultPersons(conn);
-    List<Person> adultPersons = getAdultPersonsAsList(requestRes);
-
     @Test
-    public void checkResultOfRequest() {
+    public void requestIsValid() throws SQLException {
+        Assert.assertTrue(resultSet.next());
+    }
 
-        Person p1 = new Person(5, "female", "Sveta", 50, 170, 18);
-        Assertions.assertThat(p1).isEqualTo(adultPersons.get(0));
+    @Test(expected = SQLException.class)
+    public void requestIsInvalid() throws SQLException {
+        getResultSet(statement, badRequest);
     }
 
     @Test
-    public void checkIndex() {
+    public void personListIsExists() throws SQLException {
+        Assert.assertEquals(personList.size(), PersonService.getPersonsAsList(resultSet).size());
+    }
 
-        double avgBodyIndex = getAvgBodyMassIndex(adultPersons);
-        Assertions.assertThat(20.76).isEqualTo(avgBodyIndex);
+    @Test
+    public void isValidBMI() {
+        double avgBodyIndex = Precision.round(getAvgBodyMassIndex(personList), 2);
+        Assertions.assertThat(13.09).isEqualTo(avgBodyIndex);
     }
 }
