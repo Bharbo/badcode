@@ -8,4 +8,4 @@ CREATE TABLE person
   height INT NOT NULL,
   age INT NOT NULL,
   PRIMARY KEY (id)
-  );
+);

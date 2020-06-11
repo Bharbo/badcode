@@ -62,28 +62,10 @@ public class PersonService {
         double totalImt = 0;
         for (Person p : adultPersons) {
             double heightInMeters = p.getHeight() / 100d;
-            double imt = p.getWeight() / (Double)(heightInMeters * heightInMeters);
+            double imt = p.getWeight() / (Double) (heightInMeters * heightInMeters);
             totalImt += imt;
         }
         int countOfPerson = adultPersons.size();
         return totalImt / countOfPerson;
     }
 }
-
-//        personList.add(new Person(1, "female", "Sveta", 50, 17, 170));
-//        personList.add(new Person(2, "male", "Andrey", 23, 26, 180));
-//        personList.add(new Person(3, "female", "Азалина", 100, 37, 165));
-//        personList.add(new Person(4, "male", "Канат", 74, 48, 139));
-
-//17 / (1,7 * 1,7) = 5,882352941176471‬
-//8,024691358024691‬
-//13,59044995408632‬
-//24,84343460483412‬
-
-
-//    //5.88
-////        8.02
-////        13.59
-////        24.84
-////
-////        51,63‬/4 = 12,9075‬
